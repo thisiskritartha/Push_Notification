@@ -13,21 +13,27 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
-    // TODO: implement initState
     listenToNotification();
     super.initState();
   }
 
   listenToNotification() {
-    LocalNotification.onClickNotification.stream
-      ..listen((event) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (ocntext) => AnotherPage(payload: event),
-          ),
-        );
-      });
+    LocalNotification.onClickNotification.stream.listen((event) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AnotherPage(payload: event),
+        ),
+      );
+    });
+    // FirebaseApi.onClickNotification.stream.listen((event) {
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => AnotherPage(payload: event),
+    //     ),
+    //   );
+    // });
   }
 
   @override
@@ -40,7 +46,7 @@ class _HomeState extends State<Home> {
             onPressed: () {
               LocalNotification.cancelAll();
             },
-            child: Text("Cancel all"),
+            child: const Text("Cancel all"),
           ),
         ],
       ),
@@ -50,6 +56,7 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            //mage.asset("assets/random.png"),
             ElevatedButton.icon(
               onPressed: () {
                 LocalNotification.showSimpleNotification(
@@ -65,10 +72,11 @@ class _HomeState extends State<Home> {
             ElevatedButton.icon(
               onPressed: () async {
                 await LocalNotification.showPeriodicNotification(
-                  title: "Periodic Notification",
-                  body: "This is a periodic notification body",
-                  payload: "This is a data",
-                );
+                    title: "Periodic Notification",
+                    body: "This is a periodic notification body",
+                    payload: "This is a data",
+                    bigText:
+                        "I'm glad to hear that you solved the problem by adding the necessary <receiver> tags in the AndroidManifest.xml file! These lines ensure that your app can handle scheduled notifications, including when the device is rebooted or updated. If you run into any more issues or have further questions, feel free to ask!");
               },
               icon: const Icon(Icons.timer_outlined),
               label: const Text("Periodic Notification"),
