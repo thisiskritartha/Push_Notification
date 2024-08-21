@@ -15,6 +15,10 @@ class LocalNotification {
 
   // [INITIALIZATION OF FLUTTER_LOCAL_NOTIFICATION] //
   static Future<void> init() async {
+    await _flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
+
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_launcher');
 
@@ -35,10 +39,6 @@ class LocalNotification {
       onDidReceiveNotificationResponse: onTapNotification,
       onDidReceiveBackgroundNotificationResponse: onTapNotification,
     );
-
-    _flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestNotificationsPermission();
   }
 
   // [SHOW SIMPLE NOTIFICATION] //
@@ -73,7 +73,7 @@ class LocalNotification {
     required String payload,
   }) async {
     const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
-      'channel 2',
+      'your channel id',
       'your channel name',
       channelDescription: 'your channel description',
       importance: Importance.max,
@@ -97,11 +97,12 @@ class LocalNotification {
     required String payload,
   }) async {
     tz.initializeTimeZones();
+    final tz.Location nepalTimeZone = tz.getLocation('Asia/Kathmandu');
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       2,
       title,
       body,
-      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
+      tz.TZDateTime.now(nepalTimeZone).add(const Duration(minutes: 1)),
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'channel 3',
@@ -116,6 +117,7 @@ class LocalNotification {
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       payload: payload,
     );
+    print('Scheduling notification for ${tz.TZDateTime.now(nepalTimeZone).add(const Duration(seconds: 5))}');
   }
 
   static Future cancelAll() async {

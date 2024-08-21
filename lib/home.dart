@@ -64,7 +64,6 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 20),
             ElevatedButton.icon(
               onPressed: () {
-                print('Periodic Notification called');
                 LocalNotification.showPeriodicNotification(
                   title: "Periodic Notification",
                   body: "This is a periodic notification body",
