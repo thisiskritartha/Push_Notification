@@ -7,7 +7,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
   // FirebaseApi().initNotification();
-  LocalNotification.init();
+  await LocalNotification.init();
   runApp(const MyApp());
 }
 

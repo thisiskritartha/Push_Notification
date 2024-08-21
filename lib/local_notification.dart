@@ -4,8 +4,8 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class LocalNotification {
-  static final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  static final FlutterLocalNotificationsPlugin
+      _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   static final onClickNotification = BehaviorSubject<String>();
 
@@ -16,19 +16,22 @@ class LocalNotification {
   // [INITIALIZATION OF FLUTTER_LOCAL_NOTIFICATION] //
   static Future<void> init() async {
     await _flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.requestNotificationsPermission();
 
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@drawable/ic_launcher');
 
     final DarwinInitializationSettings initializationSettingsDarwin =
-        DarwinInitializationSettings(onDidReceiveLocalNotification: (id, title, body, payload) {});
+        DarwinInitializationSettings(
+            onDidReceiveLocalNotification: (id, title, body, payload) {});
 
     const LinuxInitializationSettings initializationSettingsLinux =
         LinuxInitializationSettings(defaultActionName: 'Open notification');
 
-    final InitializationSettings initializationSettings = InitializationSettings(
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsDarwin,
       linux: initializationSettingsLinux,
@@ -47,7 +50,8 @@ class LocalNotification {
     required String body,
     required String payload,
   }) async {
-    const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
       'your channel id',
       'your channel name',
       channelDescription: 'your channel description',
@@ -55,7 +59,8 @@ class LocalNotification {
       priority: Priority.high,
       ticker: 'ticker',
     );
-    const NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
 
     await _flutterLocalNotificationsPlugin.show(
       0,
@@ -72,7 +77,8 @@ class LocalNotification {
     required String body,
     required String payload,
   }) async {
-    const AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
       'your channel id',
       'your channel name',
       channelDescription: 'your channel description',
@@ -80,13 +86,15 @@ class LocalNotification {
       priority: Priority.high,
       ticker: 'ticker',
     );
-    const NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails);
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
     await _flutterLocalNotificationsPlugin.periodicallyShow(
       1,
       title,
       body,
       RepeatInterval.everyMinute,
       notificationDetails,
+      androidAllowWhileIdle: true,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
@@ -114,10 +122,12 @@ class LocalNotification {
         ),
       ),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
       payload: payload,
     );
-    print('Scheduling notification for ${tz.TZDateTime.now(nepalTimeZone).add(const Duration(seconds: 5))}');
+    print(
+        'Scheduling notification for ${tz.TZDateTime.now(nepalTimeZone).add(const Duration(seconds: 5))}');
   }
 
   static Future cancelAll() async {
