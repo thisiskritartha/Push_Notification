@@ -77,8 +77,11 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 20),
             ElevatedButton.icon(
               onPressed: () {
-                print('Periodic Notification called');
-                LocalNotification.showScheduleNotification;
+                LocalNotification.showScheduleNotification(
+                  title: "Schedule Notification",
+                  body: "This is schedule notification",
+                  payload: "This is data payload.",
+                );
               },
               icon: const Icon(Icons.timer_outlined),
               label: const Text("Schedule Notification"),
